@@ -12,6 +12,20 @@ const mongoose = require('mongoose');
 const app = express();
 
 // --- Middleware ---
+// Middleware to redirect non-www to www (301 Permanent Redirect)
+app.use((req, res, next) => {
+  const host = req.headers.host;
+  
+  // Check if request is coming to the non-www domain
+  if (host === 'planeteducationsurat.in') {
+    return res.redirect(301, `https://www.planeteducationsurat.in${req.originalUrl}`);
+  }
+  
+  next();
+});
+
+
+
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
